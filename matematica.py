@@ -9,3 +9,4 @@ divisao = valor1 / valor2
 print("a soma e:" , soma)
 print("subtracao e:" , subtracao)
 print("multiplicacao e :" , mutiplicacao)
+print("divisao e :" , divisao)
