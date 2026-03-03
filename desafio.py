@@ -11,7 +11,7 @@ if valor_total >= 1000 and cupom == "S":
     desconto_percentual =  0.20 
     ganhou_brinde = True
 elif 500 < valor_total < 1.000 and cupom == "S":
-    desconto_percentual 0.10
+    desconto_percentual  = 0.10
 
 valor_desconto = valor_total * desconto_percentual
 valor_desconto = valor_total - valor_desconto
@@ -19,9 +19,9 @@ valor_desconto = valor_total - valor_desconto
 if distancia_da_entrega <= 50 and valor_desconto > 200:
     frete = 0.00
 else:
-    frete 40.00
+    frete = 40.00
 
-    valor_final = valor_desconto + frete
+    total_final = valor_desconto + frete
 
     print("/n" +"="*30)
     print("resumo")
@@ -29,7 +29,7 @@ else:
     print("cliente: nome")
     print("valor original:",valor_total)
     print("desconto aplicado:", valor_total)
-    print("total final", total_final)
+    print("total final:", total_final)
     print("="*30)
 
     if ganhou_brinde:
