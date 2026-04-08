@@ -3,7 +3,7 @@ altura = float(input("Digite sua altura em metros: "))
 
 imc = peso / (altura ** 2)
 
-print(f"Seu IMC é: {imc:.2f}")
+print(f"Seu IMC é: {imc:}")
 
 if imc > 25:
     print("Você está acima do peso (sobrepeso).")
