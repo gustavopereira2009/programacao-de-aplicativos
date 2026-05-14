@@ -1,7 +1,8 @@
-open('viagem.txt','w').close
+def criar_arquivo():
+    open('viagem.txt','w').close()
 
 def criar():
-    destino = input("Digite o proximo destino")
+    destino = input("Digite o proximo destino: ")
     with open('viagem.txt','a') as f:
         f.write(destino + '\n' )
         print("proxima viagem adicionada")
@@ -9,7 +10,7 @@ def criar():
 
 def ler():
     with open('viagem.txt','r') as f:
-        destino = f.readline()
+        destino = f.readlines()                                                            
 
         i = 0
         for destino in destino:
@@ -18,7 +19,7 @@ def ler():
 
 def atualizar():
     ler()
-    idx = input("Digite o destino que voce deseja alterar")
+    idx = int(input("Digite o destino que voce deseja alterar"))
     novo_destino = input("Novo destino: ")
 
     with open('viagem.txt','r') as f:
@@ -28,13 +29,24 @@ def atualizar():
 
         with open('viagem.txt','w') as f:
             f.writelines(linhas)
-            print("Destino removido")
+            print("Destino atualizado")
+
+
+def deletar():
+    ler()
+    idx = int(input("Digite o destino que voce deseja excluir"))
+
+    with open('viagem.txt','r') as f:
+         linhas = f.readlines()
+    
+
 
 while True:
-    print("\n1-Cadastrar | 2-Listar | 3-Editar | 4-Excluir | 5-Sair")
+    print("\n 1-Adicionar destino  \n 2-Listar Sujestões  \n 3-Editar Sujestão  \n 4-Remover Sujestões  \n 5-Sair")
     opcao = input("Escolha: ")
     
     if opcao == '1': criar()
     elif opcao == '2': ler()
     elif opcao == '3': atualizar()
+    elif opcao == '4': del()
     elif opcao == '5': break 
