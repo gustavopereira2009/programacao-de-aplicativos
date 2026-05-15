@@ -39,6 +39,11 @@ def deletar():
     with open('viagem.txt','r') as f:
          linhas = f.readlines()
     
+    del linhas[idx]
+
+    with open('viagem.txt','w') as f:
+        f.writelines(linhas)
+        print("Destino Removido")
 
 
 while True:
@@ -48,5 +53,5 @@ while True:
     if opcao == '1': criar()
     elif opcao == '2': ler()
     elif opcao == '3': atualizar()
-    elif opcao == '4': del()
+    elif opcao == '4': deletar()
     elif opcao == '5': break 
