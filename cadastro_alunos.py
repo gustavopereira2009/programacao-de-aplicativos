@@ -8,6 +8,7 @@ cursor.execute('''
                id INTEGER PRIMARY KEY AUTOINCREMENT,
                nome TEXT NOT NULL,
                telefone TEXT,
+               turma TEXT,
                idade INTEGER,
                cpf TEXT UNIQUE NOT NULL
                )
@@ -20,10 +21,20 @@ idade_aluno = int(input("digite a idade do aluno: "))
 cpf_aluno = input("digite o cpf do aluno: ")
 
 comando_inserir = (f'''
-                        insert  into alunos (nome, telefone, turma, idade,cpf)
-                        values('{nome_aluno}','{telefone_aluno}','{turma_aluno}',{idade_aluno},'{cpf_aluno}' )
+                        INSERT INTO alunos (nome, telefone, turma, idade,cpf)
+                        VALUES ('{nome_aluno}','{telefone_aluno}','{turma_aluno}',{idade_aluno},'{cpf_aluno}' )
                         ''')
                         
 cursor.execute(comando_inserir)
 conexao.commit()
-conexao.close 
+
+cursor.execute(''' select * from alunos ''')
+todos_alunos = cursor.fetchall()
+
+if not todos_alunos:
+    print("Nenhum aluno cadastrado")
+else:
+    for aluno in todos_alunos:
+        print(f" ID: {aluno[0]}, Nome: {aluno[1]}, Telefone: {aluno[2]}, Turma: {aluno[3]}, Idade: {aluno[4]}, CPF: {aluno[5]} ")
+
+conexao.close()
