@@ -110,3 +110,4 @@ def Menu():
             break
         else:
             print("Opção inválida! Tente novamente.")
+
