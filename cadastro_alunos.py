@@ -1,40 +1,58 @@
 import sqlite3
 
-conexao = sqlite3.connect('escola_demonstracao.db')
+conexao = sqlite3.connect("escola_demonstracao.db")
 cursor = conexao.cursor()
 
-cursor.execute('''
-            CREATE TABLE IF NOT EXISTS alunos(
-               id INTEGER PRIMARY KEY AUTOINCREMENT,
-               nome TEXT NOT NULL,
-               telefone TEXT,
-               turma TEXT,
-               idade INTEGER,
-               cpf TEXT UNIQUE NOT NULL
-               )
-               ''')
+cursor.execute("""
+CREATE TABLE IF NOT EXISTS alunos(
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    nome TEXT NOT NULL,
+    telefone TEXT,
+    turma TEXT,
+    idade INTEGER,
+    cpf TEXT UNIQUE NOT NULL,
+    id_professor INTEGER
+)
+""")
 
-nome_aluno = input("digite o nome do aluno: ")
-telefone_aluno = input("digite o telefone do aluno: ")
-turma_aluno = input("digite a turma do aluno: ")
-idade_aluno = int(input("digite a idade do aluno: "))
-cpf_aluno = input("digite o cpf do aluno: ")
+nome = input("Digite o nome do aluno: ")
+telefone = input("Digite o telefone: ")
+turma = input("Digite a turma: ")
+idade = int(input("Digite a idade: "))
+cpf = input("Digite o CPF: ")
 
-comando_inserir = (f'''
-                        INSERT INTO alunos (nome, telefone, turma, idade,cpf)
-                        VALUES ('{nome_aluno}','{telefone_aluno}','{turma_aluno}',{idade_aluno},'{cpf_aluno}' )
-                        ''')
-                        
-cursor.execute(comando_inserir)
+print(" Professores cadastrados: ")
+
+cursor.execute("SELECT * FROM professores")
+professores = cursor.fetchall()
+
+for professor in professores:
+    print(f"ID: {professor[0]} - Nome: {professor[1]}")
+
+id_professor = int(input("Digite o ID do professor do aluno: "))
+
+cursor.execute(f'''
+INSERT INTO alunos(nome, telefone, turma, idade, cpf, id_professor)
+VALUES('{nome}', '{telefone}', '{turma}', {idade}, '{cpf}', {id_professor})
+''')
+
 conexao.commit()
 
-cursor.execute(''' select * from alunos ''')
-todos_alunos = cursor.fetchall()
+print("\nLista de alunos com seus professores:\n")
 
-if not todos_alunos:
-    print("Nenhum aluno cadastrado")
-else:
-    for aluno in todos_alunos:
-        print(f" ID: {aluno[0]}, Nome: {aluno[1]}, Telefone: {aluno[2]}, Turma: {aluno[3]}, Idade: {aluno[4]}, CPF: {aluno[5]} ")
+cursor.execute("""
+SELECT alunos.nome,
+       professores.nome_professor
+FROM alunos
+INNER JOIN professores
+ON alunos.id_professor = professores.id_professor
+""")
+
+dados = cursor.fetchall()
+
+for dado in dados:
+    print("Aluno:", dado[0])
+    print("Professor:", dado[1])
+    print("------------------")
 
 conexao.close()
