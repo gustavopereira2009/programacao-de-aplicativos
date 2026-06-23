@@ -5,7 +5,7 @@ def conectar():
     cursor = conexao.cursor()
 
     cursor.execute('''
-    CREATE TABLE IF NOT EXISTS professores(
+    CREATE TABLE IF NOT EXISTS professor es(
         id_professor INTEGER PRIMARY KEY AUTOINCREMENT,
         nome_professor TEXT NOT NULL,
         telefone_professor TEXT,
