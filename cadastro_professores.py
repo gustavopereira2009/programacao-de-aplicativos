@@ -5,7 +5,7 @@ def conectar():
     cursor = conexao.cursor()
 
     cursor.execute('''
-    CREATE TABLE IF NOT EXISTS professor es(
+    CREATE TABLE IF NOT EXISTS professor                                                                                                                                                                                                                                                                                                                                                                                                                                                              es(
         id_professor INTEGER PRIMARY KEY AUTOINCREMENT,
         nome_professor TEXT NOT NULL,
         telefone_professor TEXT,
@@ -23,6 +23,9 @@ def conectar():
 
 def cadastrar_professor(cursor, conexao):
     print(" CADASTRAR PROFESSOR ")
+try:
+    except impossivel_cadastara_aluno_sem_ninguem_escrito   
+
 
     nome_professor = input("Digite o nome do professor: ")
     telefone_professor = input("Digite o telefone do professor: ")
@@ -54,7 +57,7 @@ def listar_professores(cursor, conexao):
         return
 
     for prof in professores:
-        print(f"ID: {prof[0]} | Nome: {prof[1]} | Tel: {prof[2]} | Matéria: {prof[3]} | Idade: {prof[4]} | CPF: {prof[5]} | Salário: R${prof[6]} | Escola: {prof[7]}")
+        print(f"ID: {professor[0]} | Nome: {professor[1]} | Tel: {professor[2]} | Matéria: {professor[3]} | Idade: {professor[4]} | CPF: {professor[5]} | Salário: R${professor[6]} | Escola: {professor[7]}")
 
 
 def alterar_professor(cursor, conexao):
@@ -65,7 +68,14 @@ def alterar_professor(cursor, conexao):
     id_professor = input(" Digite o ID do professor que deseja alterar: ")
 
     nome_professor = input("Novo nome: ")
-    telefone_professor = input("Novo telefone: ")
+    telefone_professor = input                                                 
+    
+    
+    
+    
+
+    
+    ("Novo telefone: ")
     materia_professor = input("Nova matéria: ")
     idade_professor = int(input("Nova idade: "))
     cpf_professor = input("Novo CPF: ")
@@ -163,3 +173,4 @@ def Menu():
 
 
 Menu()
+conexao.close()
