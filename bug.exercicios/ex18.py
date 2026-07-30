@@ -6,15 +6,14 @@ def cadastrar_lista_alunos():
     conexao = sqlite3.connect("sistema_escola.db")
     cursor = conexao.cursor()
 
-    
-    for aluno in lista:
-        cursor.execute(
-            "INSERT INTO alunos (nome, id_turma) VALUES (?, ?)",
-            aluno
-        )
+    cursor.executemany(
+        "INSERT INTO alunos (nome, id_turma) VALUES (?, ?)",
+        lista
+    )
 
     conexao.commit()
     conexao.close()
 
-
 # tinha que ter o for para pecorre a lista
+
+# remover o for e ve se esta certo *

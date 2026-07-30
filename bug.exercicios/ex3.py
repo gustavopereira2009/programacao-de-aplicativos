@@ -5,7 +5,7 @@ def criar_tabela():
     cursor = conexao.cursor()
 
     cursor.execute('''
-        CREATE  TABLE IF NOT EXISTS escola (
+        CREATE  TABLE IF NOT EXISTS escolas (
                    id INTEGER PRIMAY KEY AUTOINCREMENT,
                    nome_serie, TEXT
                    id_escola INTEGER, INTEGER
@@ -13,14 +13,14 @@ def criar_tabela():
                    )
                    ''')
     cursor.execute('''
-        CREATE TABLE IF NOT EXISTS escola (
+        CREATE TABLE IF NOT EXISTS series (
                    id INTEGER PRIMARY KEY AUTOINCREMENT,
                    nome TEXT 
                    )
                    ''')
     conexao.commit()
     conexao.close()
- # O código quebra porque você está tentando criar uma relação com a tabela escola antes mesmo de ela existir no banco de dados.
+ # O código da erro porque está tentando criar uma relação com a tabela escola antes mesmo de ela existir no banco de dados.
 
 
     

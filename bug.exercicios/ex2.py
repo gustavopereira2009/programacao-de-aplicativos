@@ -19,3 +19,4 @@ def cadastrar_serie(nome_serie, id_escola):
         conexao.close()
 
 # O nome do banco de dados na linha de conexão está sem aspas, o que causa um erro de sintaxe
+# INSERIR O PRAGMA - CORRIGIR
