@@ -19,23 +19,6 @@ CREATE TABLE IF NOT EXISTS professor(
 )
 """)
 
-cursor.execute("""
-CREATE TABLE IF NOT EXISTS aluno(
-    id INTEGER PRIMARY KEY AUTOINCREMENT,
-    nome TEXT,
-    idade INTEGER,
-    telefone TEXT,
-    endereco TEXT,
-    cidade TEXT,
-    estado TEXT,
-    id_professor INTEGER,
-    FOREIGN KEY(id_professor) REFERENCES professor(id)
-)
-""")
-
-conexao.commit()
-
-
 
 def cadastrar_professor():
 

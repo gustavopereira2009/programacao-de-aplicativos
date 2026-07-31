@@ -13,7 +13,7 @@ def vincular_aluno_turma():
         cursor.execute(
             "INSERT INTO alunos (nome, id_turma) VALUES (?, ?)",
             (nome, id_numero)
-        )
+            )
 
         conexao.commit()
         conexao.close()
@@ -26,7 +26,7 @@ def vincular_aluno_turma():
 
  # O código da erro porque o except pega apenas erros de banco de dados (sqlite3.Error), deixando de lado o erro de conversão de texto para número (ValueError) e deixando de executar a função de fechamento por falta de parênteses em conexao.close
 
-# Corrigir e usar o try except *
+# Corrigir e usar o try except * ja fiz
 
 
 

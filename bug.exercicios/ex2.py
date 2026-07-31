@@ -1,15 +1,12 @@
 import sqlite3
 
 def cadastrar_serie(nome_serie, id_escola):
-    conexao = sqlite3.connect("sistema_escola.db") 
+    conexao = sqlite3.connect("sistema_escola.db")
+    conexao.execute("PRAGMA foreign_keys = ON")  
     cursor = conexao.cursor()
     
     try:
-        cursor.execute('''
-            INSERT INTO series (nome_serie, id_escola) 
-            VALUES (?, ?)
-        ''', (nome_serie, id_escola))
-        
+        cursor.execute("INSERT INTO series (nome_serie, id_escola) VALUES (?, ?)", (nome_serie, id_escola)) 
         conexao.commit()
         print("Série cadastrada com sucesso!")
         
@@ -18,5 +15,6 @@ def cadastrar_serie(nome_serie, id_escola):
     finally:
         conexao.close()
 
-# O nome do banco de dados na linha de conexão está sem aspas, o que causa um erro de sintaxe
-# INSERIR O PRAGMA - CORRIGIR
+# Tinha que ter o pragma para dar certo
+
+# INSERIR O PRAGMA - CORRIGIR  * ja fiz

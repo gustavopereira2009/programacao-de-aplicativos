@@ -14,6 +14,6 @@ def cadastrar_lista_alunos():
     conexao.commit()
     conexao.close()
 
-# tinha que ter o for para pecorre a lista
+# tinha que ter o executemany para o codigo rodar certo
 
-# remover o for e ve se esta certo *
+# remover o for e ve se esta certo * ja fiz
