@@ -19,6 +19,9 @@ def hospital():
                        id INTEGER PRIMARY KEY AUTOINCREMENT,
                        nome TEXT NOT NULL,
                        crm TEXT NOT NULL,
+
+
+
                        id_hospital INTEGER,
                        FOREIGN  KEY (id_hospital) REFERENCES hospitais (id)
                        )
@@ -29,7 +32,14 @@ def hospital():
     except :
         print("Erro na tabela")
 
-def cadastar():
-     while True:
-        print("1 - Cadastrar hospital")
-        print("2 -  ")
+def cadastrar_hospital(cursor, conexao):
+    try:
+        nome = input("Nome do hospital: ")
+        cidade = input("Cidade: ")
+        cursor.execute('''
+                       INSERT INTO hospitais
+        (hospital,cidade)
+        VALUES (?,?))''')
+    except:
+        print("Erro ao cadastar")
+        
