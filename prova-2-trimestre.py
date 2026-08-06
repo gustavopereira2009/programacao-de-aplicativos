@@ -41,5 +41,16 @@ def cadastrar_hospital(cursor, conexao):
         (hospital,cidade)
         VALUES (?,?))''')
     except:
-        print("Erro ao cadastar")
+        print("Erro ao cadastar hospital")
+
+def cadastar_medico(cursor,conexao):
+    try:
+        nome = input("Nome do medico: ")
+        cursor.execute('''
+                       INSERT INTO medicas
+                       (medico)
+                       VALUES(?)''')
+    except:
+        print("Erro ao cadastar medico")
+        
         
