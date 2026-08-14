@@ -4,7 +4,7 @@ import sqlite3
 def criar_banco_da_rede_de_hoteis():
     try:
         conexao = sqlite3.connect("rede_hoteis.db")
-        cursor = conexao.cursor
+        cursor = conexao.cursor()
 
         cursor.execute('''
                CREATE TABLE IF NOT EXISTS redes_hotel(
@@ -48,12 +48,12 @@ def cadastar_rede():
         cursor.execute(
             "INSERT INTO redes_hotel (nome_rede,classificao_estrelas) VALUES"
             "(?,?)",
-            (nome,estrelas),       
-        )
+            (nome,estrelas), 
+              )
 
 
-        conexao.commit
-        conexao.close
+        conexao.commit()
+        conexao.close()
 
         print("redes cadastardas com sucesso")
 
@@ -72,7 +72,7 @@ def listar_redes():
 
         cursor.execute("SELECT * FROM redes_hotel ")
         redes = cursor.fetchall()
-        conexao.close
+        conexao.close()
 
 
         for rede in redes:
@@ -100,8 +100,8 @@ def atualizar_redes():
             (novo_nome, nova_estrelas, id_rede),
         )
 
-        conexao.commit
-        conexao.close
+        conexao.commit()
+        conexao.close()
         print("Rede atualizada com sucesso")
 
     except ValueError:
@@ -121,9 +121,8 @@ def excluir_rede():
 
         cursor.execute("DELETE FROM redes_hotel WHERE id = ?,"(id_rede))
 
-        conexao.commit
-        conexao.close
-
+        conexao.commit()
+        conexao.close()
     except ValueError:
         print("Digite apenas numero no id")
     except:
@@ -170,8 +169,113 @@ def listar_hoteis():
 
 
         cursor.execute("SELECT  * FROM hoteis")
-        hoteis = cursor.fetchall
+        hoteis = cursor.fetchall()
         conexao.close()
 
 
-        for hotel in hoteis
+        for hotel in hoteis:
+         print("ID",hotel[0])
+         print("Cidade",hotel[1])
+         print("ID da rede",hotel[2])
+    except:
+        print("Erro ao listar hoteris")
+
+
+def atualizar_hotel():
+    try:
+        id_hotel = int(input("Digite o id do hotel que voce quer alterar"))
+        cidade = input("Digite o nome da cidade que voce deseja alterar")
+        id_rede = int(input("digite o novo id do rede_hoteis"))
+
+        conexao = sqlite3.connect("rede_hoteis.db")
+        cursor = conexao.cursor()
+
+        cursor.execute("SELECT id FROM redes_hotel WHERE id = ?", (id_rede,))
+        rede = cursor.fetchone()
+
+
+        if not rede:
+            print(" ID da rede hoteleira não existente")
+            conexao.close()
+
+            return
+        cursor.execute("UPDATE hoteis SET cidade_turistica = ?, id_rede = ? WHERE id = ?", (cidade, id_rede, id_hotel))
+        conexao.commit()
+        conexao.close()
+        print("Hotel atualizado com sucesso")
+    except:
+        print("Erro ao atualizar hotel")
+
+
+def excluir_hotel():
+    try:
+        id_hotel = int(input("ID do hotel que deseja excluir: "))
+       
+        conexao = sqlite3.connect("rede_hoteis.db")
+        cursor = conexao.cursor()
+        
+        cursor.execute("DELETE FROM hoteis WHERE id = ?", (id_hotel,))
+        
+        conexao.commit()
+        conexao.close()
+        print("Hotel excluido com sucesso")
+   
+    except:
+        print("Erro ao excluir hotel")
+
+
+
+def menu():
+    criar_banco_da_rede_de_hoteis()
+    while True:
+        try:
+            print("1 Cadastrar redes de hoteis")
+            print("2 Listar redes de hoteis")
+            print("3 Atualizar redes de hoteis")
+            print("4 Excluir redes de hotel")
+            print("5 Cadstar hotel")
+            print("6 Listar hoteis")
+            print("7 Atualizar hoteis")
+            print("8 Excluir hotel")
+            print("9 sair")
+
+            opcao = int(input("Escolha uma opcao: "))
+           
+            if opcao == 1:
+                cadastar_rede()
+
+            elif opcao == 2:
+                listar_redes()
+
+            elif opcao == 3:
+                atualizar_redes()
+
+            elif opcao == 4:
+                excluir_rede()
+
+            elif opcao == 5:
+                cadastrar_hotel()
+
+            elif opcao == 6:
+                listar_hoteis()
+
+            elif opcao == 7:
+                atualizar_hotel()
+
+            elif opcao == 8:
+                excluir_hotel()
+            
+            elif opcao == 9:
+                print("Saindo do sistema")
+                break
+
+                
+            else:
+                print("Opcaao invaliuda digite um numero de 1 a 9")
+
+        except:
+            print("Erro no menu")
+
+
+
+menu()
