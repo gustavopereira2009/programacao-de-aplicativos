@@ -164,3 +164,27 @@ def alterar_turma( novo_nome):
         print("Erro no banco de dados")
 
 
+def excluir_truma(id_turma):
+    try:
+            conexao = conectar()
+            cursor = conexao.cursor()
+            cursor.execute("DELETE FROM escolas WHERE id = ?", (id_turma,))
+            conexao.commit()
+            conexao.close()
+    
+            print("Excluido com sucesso")
+
+    except sqlite3.Error as e:
+        print("Erro no banco de dados")
+
+
+
+
+def cadastar_aluno():
+    try:
+        nome = input("Digite o nome do aluno: ")
+        idade = int(input("Digite a idade"))
+        id_turma = int(input("Digite o id da turma vinculada"))
+    
+
+
