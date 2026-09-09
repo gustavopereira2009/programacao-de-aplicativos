@@ -2,7 +2,10 @@ import sqlite3
 
 def conectar():
     conexao = sqlite3.connect("gestao_escolar.db")
-    conexao.execute("PRAGMA foregin_keys = ON")
+    cursor = conexao.cursor()
+    cursor.execute("PRAGMA foreign_keys = ON;")
+    return conexao, cursor
+
 
 def criar_tabela():
     conexao = conectar
@@ -30,8 +33,7 @@ def criar_tabela():
     conexao.close()
 
 
-from banco import conectar
-import sqlite3
+
 
 def cadastar_escola(nome,cidade):
     try:
@@ -108,8 +110,6 @@ def excluir_escola(id_escola):
 
 
 
-from banco import conectar
-import sqlite3
 
 def cadastar_turma(nome_turma, id_escoola):
     try:
@@ -180,11 +180,165 @@ def excluir_truma(id_turma):
 
 
 
-def cadastar_aluno():
+def cadastrar_aluno():
     try:
-        nome = input("Digite o nome do aluno: ")
-        idade = int(input("Digite a idade"))
-        id_turma = int(input("Digite o id da turma vinculada"))
-    
+        nome = input("Nome do aluno: ").strip()
+        idade = int(input("Idade do aluno: "))
+        id_turma = int(input("ID da Turma: "))
+        
+        assert nome != "", "O nome do aluno nao pode ser vazio."
+        assert idade >= 3, "A idade do aluno deve ser igual ou superior a 3 anos."
+
+        conexao = conectar()
+        cursor = conexao.cursor()
+        cursor.execute("INSERT INTO alunos (nome, idade, id_turma) VALUES (?, ?, ?)", (nome, idade, id_turma))
+        conexao.commit()
+        conexao.close()
+        print("Aluno cadastrado com sucesso!")
+        
+    except ValueError:
+        print("Erro: Idade e ID da turma precisam ser numeros.")
+    except AssertionError as e:
+        print(f"Erro de validacao: {e}")
+    except sqlite3.Error:
+        print("Erro: Essa turma nao existe no banco de dados.")
+
+def listar_turma():
+    try:
+
+        conexao = conectar()
+        cursor = conexao.cursor()
+        cursor.execute("SELECT * FROM alunos")
+        alunos = cursor.fetchall()
+        conexao.close()
+        
+        if len(alunos) == 0:
+            print("Nenhum aluno cadastrado.")
+        else:
+            print("\n--- LISTA DE ALUNOS ---")
+            for aluno in alunos:
+                print(f"ID: {aluno[0]} | Nome: {aluno[1]} | Idade: {aluno[2]} | ID Turma: {aluno[3]}")
+    except sqlite3.Error as e:
+        print(f"Erro ao listar: {e}")
+
+def alterar_turma():
+    try:
+        id_busca = int(input("ID do aluno para alterar: "))
+        nome = input("Novo nome do aluno: ").strip()
+        idade = int(input("Nova idade do aluno: "))
+        id_turma = int(input("Novo ID da turma: "))
+        
+        assert nome != "", "O nome nao pode ser vazio."
+        assert idade >= 3, "A idade deve ser igual ou maior que 3 anos."
+
+
+        conexao = conectar()
+        cursor = conexao.cursor()
+        cursor.execute("UPDATE alunos SET nome = ?, idade = ?, id_turma = ? WHERE id = ?", (nome, idade, id_turma, id_busca))
+        conexao.commit()
+        conexao.close()
+
+        
+        print("Aluno alterado!")
+    except ValueError:
+        print("Erro: Digite dados numericos validos.")
+    except AssertionError as e:
+        print(f"Erro de validacao: {e}")
+    except sqlite3.Error:
+        print("Erro: Nao foi possivel alterar. Verifique se a turma existe.")
+
+def excluir_turma():
+    try:
+        id_busca = int(input("ID do aluno para excluir: "))
+
+        conexao = conectar()
+        cursor = conexao.cursor()
+        cursor.execute("DELETE FROM alunos WHERE id = ?", (id_busca,))
+        conexao.commit()
+        conexao.close()
+
+
+        print("Aluno excluido!")
+    except ValueError:
+        print("Erro: O ID precisa ser um numero.")
+
+
+
+
+import escola
+import turma
+import aluno
+
+def menu_escolas():
+    opcao = 0
+    while opcao != 5:
+        print("1. Cadastrar Escola")
+        print("2. Listar Escolas")
+        print("3. Alterar Escola")
+        print("4. Excluir Escola")
+        print("5. Voltar")
+        opcao = int(input("Escolha uma opcao: "))
+        
+        if opcao == 1: escola.cadastrar()
+        elif opcao == 2: escola.listar()
+        elif opcao == 3: escola.alterar()
+        elif opcao == 4: escola.excluir()
+
+def menu_turmas():
+    opcao = 0
+    while opcao != 5:
+        print("1. Cadastrar Turma")
+        print("2. Listar Turmas")
+        print("3. Alterar Turma")
+        print("4. Excluir Turma")
+        print("5. Voltar")
+        opcao = int(input("Escolha uma opcao: "))
+        
+        if opcao == 1: turma.cadastrar()
+        elif opcao == 2: turma.listar()
+        elif opcao == 3: turma.alterar()
+        elif opcao == 4: turma.excluir()
+
+def menu_alunos():
+    opcao = 0
+    while opcao != 5:
+        print("1. Cadastrar Aluno")
+        print("2. Listar Alunos")
+        print("3. Alterar Aluno")
+        print("4. Excluir Aluno")
+        print("5. Voltar")
+        opcao = int(input("Escolha uma opcao: "))
+        
+        if opcao == 1: aluno.cadastrar()
+        elif opcao == 2: aluno.listar()
+        elif opcao == 3: aluno.alterar()
+        elif opcao == 4: aluno.excluir()
+
+def menu_principal():
+    opcao = 0
+    while opcao != 4:
+        print("1. Gerenciar Escolas")
+        print("2. Gerenciar Turmas")
+        print("3. Gerenciar Alunos")
+        print("4. Sair")
+        opcao = int(input("Escolha uma opcao: "))
+        
+        if opcao == 1:
+            menu_escolas()
+        elif opcao == 2:
+            menu_turmas()
+        elif opcao == 3:
+            menu_alunos()
+        elif opcao == 4:
+            print("Saindo do sistema")
+
+    menu_principal()
+
+
+
+
+
+
+
 
 
